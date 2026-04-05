@@ -20,8 +20,8 @@ class PostForm
         return $schema
             ->components([
                 //
-                TextInput::make("title")->required(),
-                TextInput::make("slug")->required(),
+                TextInput::make("title")->required()->required()->minLength(5),
+                TextInput::make("slug")->required()->required()->unique(ignoreRecord: true),
                 Select::make("category_id")
                     ->relationship("category", "name")
                     ->preload()
@@ -29,7 +29,9 @@ class PostForm
                 ColorPicker::make("color"),
                 MarkdownEditor::make("content"),
                 //RichEditor::make("content"),
-                FileUpload::make("image")->disk("public")->directory("posts"),
+                FileUpload::make("image")
+                ->disk("public")
+                ->directory("posts"),
                 TagsInput::make("tags"),
                 Checkbox::make("published"),
                 DatePicker::make("published_at"),
