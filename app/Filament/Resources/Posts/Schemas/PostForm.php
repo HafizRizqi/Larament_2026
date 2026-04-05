@@ -24,54 +24,48 @@ class PostForm
         return $schema
             ->components([
         //section 1 - post details
-Section::make("Post Details")
-    ->description("Fill in the details of the post")
-    // -> icon(Heroicon::RocketLaunch)
-    // -> icon('heroicon-o-document-text')
-    ->schema([
-        Group::make([
+        Section::make("Post Details")
+            ->description("Fill in the details of the post")
+            // -> icon(Heroicon::RocketLaunch)
+            // -> icon('heroicon-o-document-text')
+            ->schema([
+                //grouping fields into 2 columns
+                Group::make([
+                    TextInput::make("title")
+                    ->rules('required | min:3 | max:10'),
+                    TextInput::make("slug")->required()->unique()->validationMessages(['unique'=>"Slug harus unik dan tidak boleh sama."]),
+                    Select::make("category_id")
+                        ->relationship("category", "name")
+                        ->required()
+                        ->preload()
+                        ->searchable(),
+                    ColorPicker::make("color"),
+                ])->columns(2),
 
-            // KIRI (2/3)
-            Group::make([
-                Section::make('Post Details')
-                    ->icon('heroicon-o-document-text')
-                    ->schema([
-                        Group::make([
-                            TextInput::make('title')->required(),
-                            TextInput::make('slug')->required(),
-                            Select::make('category_id')
-                                ->relationship('category', 'name')
-                                ->required(),
-                            ColorPicker::make('color'),
-                        ])->columns(2),
-
-                        MarkdownEditor::make('body')
-                            ->columnSpanFull(),
-                    ]),
+                MarkdownEditor::make("content"),
             ])->columnSpan(2),
 
-            // KANAN (1/3)
-            Group::make([
-                Section::make('Image Upload')
-                    ->icon('heroicon-o-photo')
-                    ->schema([
-                        FileUpload::make('image')
-                            ->disk('public')
-                            ->directory('posts'),
-                    ]),
+        //Grouping fields into 2 columns
+        Group::make([
 
-                Section::make('Meta Data')
-                    ->icon('heroicon-o-cog')
-                    ->schema([
-                        TagsInput::make('tags'),
-                        Checkbox::make('published'),
-                        DateTimePicker::make('published_at'),
-                    ]),
-            ])->columnSpan(1),
+            //section 2 - image
+            Section::make("Image Upload")
+                ->schema([
+                    FileUpload::make("image")
+                        ->required()
+                        ->disk("public")
+                        ->directory("posts"),
+                ]),
 
+            //section 3 - meta
+            Section::make("Meta Information")
+                ->schema([
+                    TagsInput::make("tags"),
+                    Checkbox::make("published"),
+                    DateTimePicker::make("published_at"),
+                ])->columnSpan(1)
         ])->columns(3),
-    ]),
-        ]);
+    ]);
 
     }
 }
