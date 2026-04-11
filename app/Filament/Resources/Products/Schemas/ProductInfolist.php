@@ -28,7 +28,7 @@ class ProductInfolist
                         TextEntry::make('sku')
                             ->label('Product SKU')
                             ->badge()
-                            ->color('success'),
+                            ->color('warning'),
                         TextEntry::make('description')
                             ->label('Product Description'),
                         TextEntry::make('created_at')
@@ -45,9 +45,11 @@ class ProductInfolist
                             ->label('Product Price')
                             ->weight('bold')
                             ->color('primary')
-                            ->icon('heroicon-s-currency-dollar'),
+                            ->icon('heroicon-s-currency-dollar')
+                            ->formatStateUsing(fn ($state) => 'Rp ' . number_format($state, 0, ',', '.')),
                         TextEntry::make('stock')
-                            ->label('Product Stock'),
+                            ->label('Product Stock')
+                            ->icon('heroicon-s-cube'),
                     ])
                     ->columnSpanFull(),
                 Section::make('Image and Status')
