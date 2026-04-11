@@ -9,6 +9,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BadgeColumn;
 
 class ProductsTable
 {
@@ -23,6 +24,13 @@ class ProductsTable
                 TextColumn::make('stock'),
                 ImageColumn::make('image')
                     ->disk('public'),
+                BadgeColumn::make('is_active')
+                    ->label('Status')
+                    ->colors([
+                        'success' => fn ($state) => $state,
+                        'danger' => fn ($state) => !$state,
+                    ])
+                    ->formatStateUsing(fn ($state) => $state ? 'Aktif' : 'Nonaktif')
             ])
             ->filters([
                 //
