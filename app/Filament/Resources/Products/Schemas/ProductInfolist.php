@@ -21,6 +21,7 @@ class ProductInfolist
                 Tabs::make('Product Tabs')
                 ->tabs([
                     Tab::make('Product Details')
+                    ->icon('heroicon-o-information-circle')
                         ->schema([
                             TextEntry::make('name')
                                 ->label('Product Name')
@@ -40,6 +41,9 @@ class ProductInfolist
                                 ->color('info'),
                         ]),
                     Tab::make('Product Price and Stock')
+                    ->icon('heroicon-o-currency-dollar')
+                    ->badge(fn ($record) => $record->stock)
+                    ->badgeColor(fn ($record) => $record->stock > 10 ? 'success' : ($record->stock > 0 ? 'warning' : 'danger'))
                     ->schema([
                         TextEntry::make('price')
                             ->label('Product Price')
@@ -50,6 +54,7 @@ class ProductInfolist
                             ->label('Product Stock'),
                     ]),
                     Tab::make('Image and Status')
+                    ->icon('heroicon-o-photo')
                         ->schema([
                             ImageEntry::make('image')
                                 ->label('Product Image')
@@ -70,8 +75,7 @@ class ProductInfolist
                             ->label('Is Featured?')
                             ->boolean(),
                         ]),
-                        ])->columnSpanFull()
-                          ->vertical(),
+                        ])->columnSpanFull(),
                 Section::make('Product Info')
                     ->description('')
                     ->schema([
