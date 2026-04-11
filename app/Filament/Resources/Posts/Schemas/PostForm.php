@@ -32,8 +32,9 @@ class PostForm
                 //grouping fields into 2 columns
                 Group::make([
                     TextInput::make("title")
-                    ->rules('required | min:3 | max:10'),
-                    TextInput::make("slug")->required()->unique()->validationMessages(['unique'=>"Slug harus unik dan tidak boleh sama."]),
+                    ->rules('required | min:5 ')->validationMessages(['min' => 'Title minimal 5 karakter.', 'required' => 'Title harus diisi.']),
+                    TextInput::make("slug")->rules('required | min:3 ')->unique()->validationMessages(['required' => 'Slug wajib diisi.','unique' 
+                    => 'Slug sudah digunakan, gunakan yang lain.', 'min' => 'Slug minimal 3 karakter.']),
                     Select::make("category_id")
                         ->relationship("category", "name")
                         ->required()
