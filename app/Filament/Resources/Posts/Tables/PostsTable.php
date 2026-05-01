@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Tables;
 
+use Dom\Text;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -22,17 +23,24 @@ class PostsTable
         return $table
             ->columns([
                 //
-                TextColumn::make('title')->sortable()->searchable(),
-                TextColumn::make('slug')->sortable()->searchable(),
-                TextColumn::make('category.name')->sortable()->searchable(),
+                TextColumn::make('id')->label('ID')->sortable()->toggleable(),
+                TextColumn::make('title')->sortable()->searchable()->toggleable(),
+                TextColumn::make('slug')->sortable()->searchable()->toggleable(),
+                TextColumn::make('category.name')->sortable()->searchable()->toggleable(),
                 ColorColumn::make('color'),
                 ImageColumn::make('image')
                     ->disk('public'),
                 IconColumn::make('published')
                     ->boolean(),
+                TextColumn::make('tags')
+                    ->label('Tags')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
             ])->defaultSort('created_at', 'asc')
             ->filters([
