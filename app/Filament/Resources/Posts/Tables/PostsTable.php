@@ -70,11 +70,12 @@ class PostsTable
 
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
-                ReplicateAction::make(),
+                EditAction::make()->icon('heroicon-o-pencil'),
+                DeleteAction::make()->icon('heroicon-o-trash'),
+                ReplicateAction::make()->icon('heroicon-o-document-duplicate'),
                 Action::make('status')
                     ->label('status change')
+                    ->requiresConfirmation()
                     ->icon('heroicon-o-check-circle')
                     ->schema([
                 Checkbox::make('published')
